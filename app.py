@@ -3,14 +3,26 @@ from pywebio import start_server
 from pywebio.output import put_text
 from fpdf import FPDF
 
+FONTS = ['Helvetica', 'Calibri', 'Futura', 'Garamond', 'Times New Roman',
+         'Arial', 'Cambria', 'Verdana', 'Rockwell', 'Franklin Gothic']
+
 
 def app_main():
-    text = textarea("Enter your text to generate pdf",
-                    placeholder="Input text", required=True)
+    add_more = True
+    pages = []
 
-    save_location = input("Enter a name for your input file",
-                          required=True)
-    put_text("Tadaaa.." + save_location + "pdf is generated.")
+    while add_more:
+        page = textarea("Please insert the text for your PDF file",
+                        placeholder="Type anything you like")
+        pages.append(page)
+
+        add_more = actions(label="Would you like to add another page?",
+                           buttons=[{'label': 'Yes', 'value': True},
+                                    {'label': 'No', 'value': False}])
+
+    save_location = input("What is the name of your PDF file?")
+    create_pdf(pages, font='Arial', size=16, save_location=save_location)
+    put_text("Congratulations! A PDF file is generated for you.")
 
 
 def create_page(pdf, text: str, font: str, size: int):
