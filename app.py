@@ -34,7 +34,13 @@ def create_page(pdf, text: str, font: str, size: int):
         pdf.cell(40, 10, sent, 0, i + 1)
 
 
-def create_pdf(pages: list, font: str, size: int, save_location: str = "output.pdf"):
+text_info = input_group('Text Fonts and Size', [
+    select(label='Select your font', options=FONTS, value='Arial', name='font'),
+    input("Select your text size", value='14', type=NUMBER, name='size')
+])
+
+
+def create_pdf(pages, text_info['font'], text_info['size'], save_location):
     pdf = FPDF()
 
     for page in pages:
